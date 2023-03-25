@@ -3,7 +3,6 @@ import { RouterLink, RouterView, useRouter } from "vue-router";
 const router = useRouter();
 function joinRoomBtn() {}
 function createRoomBtn() {}
-
 </script>
 
 <template>

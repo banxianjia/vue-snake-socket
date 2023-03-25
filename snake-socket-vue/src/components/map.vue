@@ -16,7 +16,7 @@ const props = defineProps({
     default: 20,
   },
   snakes: {
-    type: Array,
+    type: Object,
   },
 });
 function blockBg(r: number, c: number): string {
