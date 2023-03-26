@@ -5,26 +5,59 @@
 </template>
     
 <script setup lang='ts'>
-import { onBeforeMount } from "vue";
+import { onBeforeMount, ref, type Ref } from "vue";
 
 import food from "./food";
 import snake from "./snake";
-import { getAllBlockBg } from "./renderBlock";
+import {
+  getInitBlockBg,
+  renderSnake,
+  renderFood,
+  renderClearFood,
+} from "./renderBlock";
 
 import MyBlock from "../../components/block.vue";
-
-let allBlockBgs: Array<Array<string>> = [];
+const allBlockBgs: Ref<Array<Array<string>>> = ref(getInitBlockBg(20, 20));
 onBeforeMount(() => {
   // 创建蛇
-  let user1 = new snake(20, 20);
-  let user2 = new snake(20, 20);
+  let user = new snake(20, 20);
   let users: Array<snake> = [];
-  users.push(user1);
-  users.push(user2);
+  users.push(user);
   // 创建食物
   let foods = new food(20, 20, users);
-  allBlockBgs = getAllBlockBg(20, 20, users, foods);
+  renderSnake(users, allBlockBgs.value);
+  renderFood(foods, allBlockBgs.value);
+  keyDown(user, foods, allBlockBgs.value, users);
 });
+// 监听键盘
+function keyDown(
+  user: snake,
+  foods: food,
+  blockBgs: Array<Array<string>>,
+  users: Array<snake>
+) {
+  if (!user.over) {
+    document.onkeydown = (e) => {
+      // 事件对象兼容
+      let e1 =
+        e || event || window.event || arguments.callee.caller.arguments[0];
+      // console.log(e1);
+      if (e1 && e1.keyCode == 37 && user.fx != 0) {
+        // ←键
+        user.moveLeft(foods, blockBgs, users);
+      } else if (e1 && e1.keyCode == 39 && user.fx != 1) {
+        // →键
+        user.moveRight(foods, blockBgs, users);
+      } else if (e1 && e1.keyCode == 38 && user.fx != 2) {
+        // ↑键
+        user.moveTop(foods, blockBgs, users);
+      } else if (e1 && e1.keyCode == 40 && user.fx != 3) {
+        // ↓键
+        user.moveBottom(foods, blockBgs, users);
+      }
+    };
+  }
+}
 </script>
     
 <style>
