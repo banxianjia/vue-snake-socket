@@ -34,6 +34,7 @@ function buildFood(row: number, col: number, users: Array<snake>) {
 export default class food {
     site: CRD;
     bg: string;
+    point: number;
     constructor(row: number, col: number, users: Array<snake>) {
         // 初始化食物位置
         buildFood(row, col, users);
@@ -41,5 +42,6 @@ export default class food {
         // 初始化食物颜色
         const bgIndex = Math.floor(Math.random() * foodBgs.length);
         this.bg = foodBgs[bgIndex];
+        this.point = 10;
     }
 }
