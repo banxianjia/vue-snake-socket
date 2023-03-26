@@ -5,19 +5,22 @@
 </template>
     
 <script setup lang='ts'>
-import { onBeforeMount, ref, type Ref } from "vue";
-
+import { io } from "socket.io-client";
+import { onBeforeMount, onMounted, ref, type Ref } from "vue";
 import food from "./food";
 import snake from "./snake";
-import {
-  getInitBlockBg,
-  renderSnake,
-  renderFood,
-  renderClearFood,
-} from "./renderBlock";
+import { getInitBlockBg, renderSnake, renderFood } from "./renderBlock";
 
 import MyBlock from "../../components/block.vue";
+
 const allBlockBgs: Ref<Array<Array<string>>> = ref(getInitBlockBg(20, 20));
+
+onMounted(() => {
+  const socket = io("http://localhost:3000/");
+  socket.on("connect", () => {
+    console.log(socket.id, "监听客户端连接成功-connect");
+  });
+});
 onBeforeMount(() => {
   // 创建蛇
   let user = new snake(20, 20);
