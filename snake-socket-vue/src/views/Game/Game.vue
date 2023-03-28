@@ -6,26 +6,27 @@
     
 <script setup lang='ts'>
 import { io } from "socket.io-client";
+import { onBeforeRouteLeave } from "vue-router";
 import { onBeforeMount, onMounted, ref, type Ref } from "vue";
+
 import food from "./food";
 import snake from "./snake";
 import { getInitBlockBg, renderSnake, renderFood } from "./renderBlock";
 
 import MyBlock from "../../components/block.vue";
-
+import { socket } from "@/socket";
 const allBlockBgs: Ref<Array<Array<string>>> = ref(getInitBlockBg(20, 20));
-
-onMounted(() => {
-  const socket = io("http://localhost:3000/");
-  socket.on("connect", () => {
-    console.log(socket.id, "监听客户端连接成功-connect");
-  });
+onBeforeRouteLeave((to, from) => {
+  socket.disconnect();
 });
+onMounted(() => {});
 onBeforeMount(() => {
   // 创建蛇
   let user = new snake(20, 20);
+  // socket.emit("sendInfo", user);
   let users: Array<snake> = [];
   users.push(user);
+  // socket.on("getUsers", () => {});
   // 创建食物
   let foods = new food(20, 20, users);
   renderSnake(users, allBlockBgs.value);

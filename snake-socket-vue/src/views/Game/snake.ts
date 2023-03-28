@@ -1,6 +1,7 @@
 import { render } from "vue";
 import food from "./food";
 import { renderClearFood, renderClearSnake, renderFood, renderSnake } from "./renderBlock";
+import { socket } from "@/socket";
 // 蛇背景色池
 const snakesBgs = ["#FFB6C1", "#DC143C", "#EE82EE", "#800080"];
 // 坐标接口
@@ -148,6 +149,7 @@ export default class snake {
             }
             clearInterval(this.timer);
         }
+        socket.emit("sendUser", this);
         renderSnake([this], blockBgs);
     }
     // 向左
