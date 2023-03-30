@@ -2,7 +2,7 @@
 import { io } from "socket.io-client";
 import { onMounted, ref, type Ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
-import { socket, socketState } from "../socket";
+import { socket, socketState } from "./Game/socket";
 const showCreate: Ref<Boolean> = ref(false);
 const showJoin: Ref<Boolean> = ref(false);
 const maxUsers: Ref<number> = ref(2);
