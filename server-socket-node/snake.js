@@ -23,10 +23,10 @@ function randomInitSnakeSite(row, col) {
     };
 }
 module.exports = class snake {
-    constructor(row, col) {
+    constructor(row, col, name, bg) {
         const bgIndex = Math.floor(Math.random() * snakesBgs.length);
         let obj = randomInitSnakeSite(row, col);
-        this.bg = snakesBgs[bgIndex];// 初始化蛇颜色
+        this.bg = bg;// 初始化蛇颜色
         this.site = obj.site;// 初始化蛇位置
         this.speed = 1000;
         this.point = 0;
@@ -35,6 +35,7 @@ module.exports = class snake {
         this.fx = obj.mode * 2
         this.row = row;
         this.col = col;
+        this.name = name
     }
     // 蛇身移动
     move = () => {

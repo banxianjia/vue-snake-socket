@@ -1,12 +1,16 @@
 <template>
-  <div style="display: flex" v-for="i in row" :key="i">
-    <MyBlock v-for="j in col" :key="j" :bg="gameMap[i - 1][j - 1]"></MyBlock>
+  <div style="display: flex" v-for="i in socketState.row" :key="i">
+    <MyBlock
+      v-for="j in socketState.col"
+      :key="j"
+      :bg="gameMap[i - 1][j - 1]"
+    ></MyBlock>
   </div>
-  {{ gameMap }}
+  {{ socketState.users }}
 </template>
     
 <script setup lang='ts'>
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { computed, onBeforeMount, onBeforeUpdate, onMounted } from "vue";
 
 import { keyDown } from "./control";
@@ -15,21 +19,24 @@ import { renderBlocks } from "./renderBlock";
 
 import MyBlock from "../../components/block.vue";
 
-const row = 10;
-const col = 10;
-const gameMap = computed(() => {
-  return renderBlocks(row, col, socketState.users);
-});
+const route = useRoute();
 
+console.log("组合式 API 中的 setup() 钩子会在所有选项式 API 钩子之前调用");
+
+const gameMap = computed(() => {
+  return renderBlocks(socketState.users, socketState.foods);
+});
 onBeforeRouteLeave((to, from) => {
   socket.disconnect();
 });
 onBeforeUpdate(() => {});
-onMounted(() => {});
-onBeforeMount(() => {
-  socket.emit("setSnake", row, col);
-  // socket.emit("start");
-  // socket.emit("setMap", row, col);
+onMounted(() => {
+  console.log("挂载");
+});
+onBeforeMount(async () => {
+  console.log("挂载之前");
+  console.log(route.query);
+
   keyDown();
 });
 </script>

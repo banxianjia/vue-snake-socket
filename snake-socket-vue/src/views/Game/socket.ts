@@ -1,43 +1,42 @@
-import { reactive, ref, shallowRef, type Ref, computed } from "vue";
+import { reactive } from "vue";
 import { io } from "socket.io-client";
-import type { snake } from "./type";
+import type { MSG, food, res, rooms, snake } from "./type";
 
 
 
-interface MSG {
-    type: string,
-    msg: string
-}
+
 export const socketState = reactive({
     connected: false,
-    msgs: [] as Array<MSG>,
-    users: [] as Array<snake>
-    // foods: {} as food
+    users: [] as Array<snake>,
+    foods: {} as food,
+    room: {} as rooms,
+    row: 10,
+    col: 10
 });
 
 
-export let socketUsers = [];
 
 export const socket = io("http://localhost:3000");
 
+socket.on("keepUsers", (users) => {
+    // console.log(users)
+    socketState.users = users
+
+})
+socket.on("keepFoods", (food) => {
+    // console.log("food")
+    socketState.foods = food
+
+})
+socket.on("keepRC", (r, c) => {
+    socketState.row = r
+    socketState.col = c
+})
+
 socket.on("connect", () => {
     socketState.connected = true;
-});
 
+});
 socket.on("disconnect", () => {
     socketState.connected = false;
 });
-socket.on("msg", (data) => {
-    socketState.msgs.unshift(data)
-    console.log(data)
-});
-socket.on("keepUsers", (users) => {
-    console.log(users)
-    socketState.users = users
-    // console.log(socketUsers)
-})
-
-// socket.on("keepFood", (food) => {
-//     socketState.foods = food
-
-// })

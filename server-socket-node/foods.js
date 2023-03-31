@@ -1,5 +1,7 @@
 // 食物背景色池
 const foodBgs = ["#B22222", "#A52A2A", "#FF0000", "#CD5C5C"];
+// 食物坐标
+let foodSite = {};
 // 生成食物坐标
 function buildFood(row, col, users) {
     foodSite = {
