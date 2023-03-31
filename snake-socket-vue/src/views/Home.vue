@@ -35,6 +35,12 @@ function myConfirm(mode: number) {
     if (mode === 0) {
       // 创建房间确认
       const room = Math.floor(Math.random() * 9000 + 1000);
+      if(maxUsers.value>6){
+        maxUsers.value = 6
+      }
+      else if(maxUsers.value<2){
+        maxUsers.value = 2
+      }
       socket.emit("createRoom", {
         roomId: room,
         maxUser: maxUsers.value,

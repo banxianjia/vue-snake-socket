@@ -32,6 +32,7 @@ const props = defineProps<{
   width: 100px;
   height: 100px;
   margin-top: 10px;
+  margin-left: 10px;
 }
 p {
   padding: 0;

@@ -24,7 +24,7 @@ exports.eat = (socket, foods, user) => {
         // renderSnake(socketState.users);
         // renderFood(new food(10, 10, users))
         // console.log(this);
-        // user.speed = user.speed - 100
+        user.speed = user.speed - 100
         socket.emit("keepSpeed", user.speed)
         console.log(user.bg + "发送speed")
         console.log(user.bg + "吃到食物")

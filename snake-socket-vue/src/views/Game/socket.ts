@@ -17,7 +17,7 @@ export const socketState = reactive({
 
 
 
-export const socket = io("http://localhost:3000");
+export const socket = io("http://172.17.144.133:3000");
 
 socket.on("keepUsers", (users) => {
     // console.log(users)

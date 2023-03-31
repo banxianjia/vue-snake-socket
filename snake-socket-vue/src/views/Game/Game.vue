@@ -1,10 +1,12 @@
 <template>
-  <div style="display: flex" v-for="i in socketState.row" :key="i">
-    <MyBlock
-      v-for="j in socketState.col"
-      :key="j"
-      :bg="gameMap[i - 1][j - 1]"
-    ></MyBlock>
+  <div style="display: flex;flex-direction: column;">
+    <div style="display: flex" v-for="i in socketState.row" :key="i">
+      <MyBlock
+        v-for="j in socketState.col"
+        :key="j"
+        :bg="gameMap[i - 1][j - 1]"
+      ></MyBlock>
+    </div>
   </div>
   <div style="display: flex">
     <MyScoreBoard
@@ -13,6 +15,7 @@
       :user="user"
     ></MyScoreBoard>
   </div>
+  
 </template>
     
 <script setup lang='ts'>
