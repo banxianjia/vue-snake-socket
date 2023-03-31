@@ -6,7 +6,13 @@
       :bg="gameMap[i - 1][j - 1]"
     ></MyBlock>
   </div>
-  {{ socketState.users }}
+  <div style="display: flex">
+    <MyScoreBoard
+      v-for="(user, index) in socketState.users"
+      :key="index"
+      :user="user"
+    ></MyScoreBoard>
+  </div>
 </template>
     
 <script setup lang='ts'>
@@ -18,6 +24,7 @@ import { socket, socketState } from "./socket";
 import { renderBlocks } from "./renderBlock";
 
 import MyBlock from "../../components/block.vue";
+import MyScoreBoard from "../../components/scoreboard.vue";
 
 const route = useRoute();
 
