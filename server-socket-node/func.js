@@ -15,7 +15,7 @@ exports.collide = (user, users) => {
 }
 // 吃食物
 // hi 头行，hj 头列 ti 移动前尾行 tj 移动前尾列
-exports.eat = (foods, user) => {
+exports.eat = (socket, foods, user) => {
     // 蛇头坐标
     let h = [user.site[0].x, user.site[0].y];
     if (h[0] === foods.site.x && h[1] === foods.site.y) {
@@ -24,6 +24,9 @@ exports.eat = (foods, user) => {
         // renderSnake(socketState.users);
         // renderFood(new food(10, 10, users))
         // console.log(this);
+        // user.speed = user.speed - 100
+        socket.emit("keepSpeed", user.speed)
+        console.log(user.bg + "发送speed")
         console.log(user.bg + "吃到食物")
         return true
     }
@@ -61,7 +64,7 @@ exports.hMove = (socket, rooms, mode, cb = () => { }) => {
                     break;
             }
 
-            if (this.eat(roomInfo.food, self)) {
+            if (this.eat(socket, roomInfo.food, self)) {
                 roomInfo.food = new food(roomInfo.row, roomInfo.col, [...roomInfo.users.values()])
                 socket.emit("keepFoods", rooms[id].food)
                 socket.to(roomInfo.roomId).emit("keepFoods", roomInfo.food)

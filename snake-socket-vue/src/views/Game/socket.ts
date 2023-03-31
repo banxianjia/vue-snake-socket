@@ -11,7 +11,8 @@ export const socketState = reactive({
     foods: {} as food,
     room: {} as rooms,
     row: 10,
-    col: 10
+    col: 10,
+    speed: 1000
 });
 
 
@@ -31,6 +32,9 @@ socket.on("keepFoods", (food) => {
 socket.on("keepRC", (r, c) => {
     socketState.row = r
     socketState.col = c
+})
+socket.on("keepSpeed", (speed) => {
+    socketState.speed = speed
 })
 
 socket.on("connect", () => {
